@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Acc Roblox</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
+        body { font-family: Arial, sans-serif; text-align: center; background: #f5f5f5; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+        .btn { padding: 10px 20px; color: white; background: blue; border: none; border-radius: 5px; cursor: pointer; }
+        .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); width: 300px; text-align: left; }
+        .popup button { margin-top: 10px; padding: 10px; background: green; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        .popup .close { background: red; }
         .hidden { display: none; }
-        .popup { 
-            position: fixed; 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); 
-            background: white; padding: 20px; 
-            border: 1px solid #ccc; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.5); 
-            width: 300px;
-        }
-        .popup button { margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>Shop Acc Roblox</h1>
-    <button onclick="showPopup()">Nạp tiền</button>
+    <div class="container">
+        <h1>Shop Acc Roblox</h1>
+        <button class="btn" onclick="showPopup()">Nạp tiền</button>
+    </div>
 
-    <div id="popup" class="popup hidden">
+    <div id="popup" class="popup">
         <h3>Nạp tiền bằng thẻ cào</h3>
         <label>Loại thẻ:</label>
         <select id="cardType">
@@ -52,16 +49,16 @@
         <br><br>
 
         <button onclick="submitCard()">Nạp thẻ</button>
-        <button onclick="hidePopup()">Hủy</button>
+        <button class="close" onclick="hidePopup()">Hủy</button>
     </div>
 
     <script>
         function showPopup() {
-            document.getElementById("popup").classList.remove("hidden");
+            document.getElementById("popup").style.display = "block";
         }
         
         function hidePopup() {
-            document.getElementById("popup").classList.add("hidden");
+            document.getElementById("popup").style.display = "none";
         }
 
         function submitCard() {
