@@ -5,192 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Acc Roblox</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .hidden { display: none; }
+        .popup { 
+            position: fixed; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            background: white; padding: 20px; 
+            border: 1px solid #ccc; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); 
+            width: 300px;
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        .acc-item, .btn-container {
-            background: #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            color: white;
-            background: blue;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .hidden {
-            display: none;
-        }
-        /* Popup */
-        .popup, .auth-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            z-index: 1000;
-        }
-        .popup button, .auth-popup button {
-            margin: 5px;
-            padding: 10px;
-            border: none;
-            background: green;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .popup .close, .auth-popup .close {
-            background: red;
-        }
-        /* Lớp phủ nền */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-        input {
-            padding: 10px;
-            margin: 10px;
-            width: 80%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+        .popup button { margin-top: 10px; }
     </style>
 </head>
 <body>
-    <div class="container" id="auth-container">
-        <h1>Chào mừng đến Shop Acc Roblox</h1>
-        <button class="btn" onclick="showAuthPopup('login')">Đăng nhập</button>
-        <button class="btn" onclick="showAuthPopup('register')">Đăng ký</button>
-    </div>
 
-    <div class="container hidden" id="main-container">
-        <h1>Shop Acc Roblox</h1>
-        <div class="btn-container">
-            <button class="btn" onclick="showPopup('naptien')">Nạp tiền bằng thẻ cào</button>
-        </div>
-        <div class="acc-item">Acc Random - 19k <button class="btn" onclick="showPopup('Acc Random', 19000)">Mua ngay</button></div>
-        <div class="acc-item">Acc Max Level - 50k <button class="btn" onclick="showPopup('Acc Max Level', 50000)">Mua ngay</button></div>
-        <div class="acc-item">Acc Max Level Godhuman - 75k <button class="btn" onclick="showPopup('Acc Max Level Godhuman', 75000)">Mua ngay</button></div>
-        <div class="acc-item">Acc V4 - 150k <button class="btn" onclick="showPopup('Acc V4', 150000)">Mua ngay</button></div>
-        <div class="acc-item">Acc V4 Full Gear - 200k <button class="btn" onclick="showPopup('Acc V4 Full Gear', 200000)">Mua ngay</button></div>
-    </div>
+    <h1>Shop Acc Roblox</h1>
+    <button onclick="showPopup()">Nạp tiền</button>
 
-    <!-- Overlay nền mờ -->
-    <div class="overlay" id="overlay"></div>
+    <div id="popup" class="popup hidden">
+        <h3>Nạp tiền bằng thẻ cào</h3>
+        <label>Loại thẻ:</label>
+        <select id="cardType">
+            <option value="Viettel">Viettel</option>
+            <option value="Mobifone">Mobifone</option>
+            <option value="Vinaphone">Vinaphone</option>
+        </select>
+        <br><br>
 
-    <!-- Popup xác nhận mua -->
-    <div class="popup" id="popup">
-        <h2 id="popup-title">Bạn có muốn mua không?</h2>
-        <p id="popup-price"></p>
-        <button onclick="confirmPurchase()">Xác nhận</button>
-        <button class="close" onclick="closePopup()">Hủy</button>
-    </div>
+        <label>Mệnh giá:</label>
+        <select id="cardValue">
+            <option value="10000">10.000 VNĐ</option>
+            <option value="20000">20.000 VNĐ</option>
+            <option value="50000">50.000 VNĐ</option>
+            <option value="100000">100.000 VNĐ</option>
+        </select>
+        <br><br>
 
-    <!-- Popup nạp tiền -->
-    <div class="popup" id="naptien-popup">
-        <h2>Nạp tiền bằng thẻ cào</h2>
-        <input type="text" id="card-code" placeholder="Nhập mã thẻ cào">
-        <button onclick="napTien()">Nạp ngay</button>
-        <button class="close" onclick="closePopup()">Hủy</button>
-    </div>
+        <label>Mã số thẻ:</label>
+        <input type="text" id="cardCode" placeholder="Nhập mã số thẻ">
+        <br><br>
 
-    <!-- Popup Đăng nhập / Đăng ký -->
-    <div class="auth-popup" id="auth-popup">
-        <h2 id="auth-title"></h2>
-        <input type="text" id="username" placeholder="Tên đăng nhập">
-        <input type="password" id="password" placeholder="Mật khẩu">
-        <button onclick="auth()">Xác nhận</button>
-        <button class="close" onclick="closeAuthPopup()">Hủy</button>
+        <label>Seri thẻ:</label>
+        <input type="text" id="cardSeri" placeholder="Nhập seri thẻ">
+        <br><br>
+
+        <button onclick="submitCard()">Nạp thẻ</button>
+        <button onclick="hidePopup()">Hủy</button>
     </div>
 
     <script>
-        function showPopup(accName, price) {
-            document.getElementById("popup-title").innerText = "Bạn có muốn mua " + accName + " không?";
-            document.getElementById("popup-price").innerText = "Giá: " + price.toLocaleString() + " VNĐ";
-            document.getElementById("popup").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
+        function showPopup() {
+            document.getElementById("popup").classList.remove("hidden");
+        }
+        
+        function hidePopup() {
+            document.getElementById("popup").classList.add("hidden");
         }
 
-        function showPopup(type) {
-            if (type === 'naptien') {
-                document.getElementById("naptien-popup").style.display = "block";
-            } else {
-                document.getElementById("popup-title").innerText = "Bạn có muốn mua " + type + " không?";
-                document.getElementById("popup-price").innerText = "Giá: " + type;
-                document.getElementById("popup").style.display = "block";
+        function submitCard() {
+            let type = document.getElementById("cardType").value;
+            let value = document.getElementById("cardValue").value;
+            let code = document.getElementById("cardCode").value;
+            let seri = document.getElementById("cardSeri").value;
+
+            if (code === "" || seri === "") {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
             }
-            document.getElementById("overlay").style.display = "block";
-        }
 
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("naptien-popup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
-
-        function confirmPurchase() {
-            alert("Mua thành công! Vui lòng kiểm tra tin nhắn để nhận tài khoản.");
-            closePopup();
-        }
-
-        function napTien() {
-            let cardCode = document.getElementById("card-code").value;
-            if (cardCode) {
-                alert("Nạp thành công! Mã thẻ: " + cardCode);
-                closePopup();
-            } else {
-                alert("Vui lòng nhập mã thẻ cào.");
-            }
-        }
-
-        function showAuthPopup(type) {
-            document.getElementById("auth-popup").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
-            document.getElementById("auth-title").innerText = type === 'login' ? "Đăng nhập" : "Đăng ký";
-        }
-
-        function closeAuthPopup() {
-            document.getElementById("auth-popup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
-
-        function auth() {
-            closeAuthPopup();
-            document.getElementById("auth-container").style.display = "none";
-            document.getElementById("main-container").classList.remove("hidden");
+            alert(`Nạp thành công thẻ ${type} mệnh giá ${value} VNĐ`);
+            hidePopup();
         }
     </script>
+
 </body>
 </html>
