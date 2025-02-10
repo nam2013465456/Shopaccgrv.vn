@@ -23,7 +23,7 @@
         h1 {
             color: #333;
         }
-        .acc-item {
+        .acc-item, .btn-container {
             background: #ddd;
             padding: 10px;
             margin: 10px 0;
@@ -37,9 +37,13 @@
             text-decoration: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 5px;
         }
-        /* Bảng xác nhận */
-        .popup {
+        .hidden {
+            display: none;
+        }
+        /* Popup */
+        .popup, .auth-popup {
             display: none;
             position: fixed;
             top: 50%;
@@ -52,7 +56,7 @@
             text-align: center;
             z-index: 1000;
         }
-        .popup button {
+        .popup button, .auth-popup button {
             margin: 5px;
             padding: 10px;
             border: none;
@@ -61,7 +65,7 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .popup .close {
+        .popup .close, .auth-popup .close {
             background: red;
         }
         /* Lớp phủ nền */
@@ -75,11 +79,27 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="auth-container">
+        <h1>Chào mừng đến Shop Acc Roblox</h1>
+        <button class="btn" onclick="showAuthPopup('login')">Đăng nhập</button>
+        <button class="btn" onclick="showAuthPopup('register')">Đăng ký</button>
+    </div>
+
+    <div class="container hidden" id="main-container">
         <h1>Shop Acc Roblox</h1>
+        <div class="btn-container">
+            <button class="btn" onclick="showPopup('naptien')">Nạp tiền bằng thẻ cào</button>
+        </div>
         <div class="acc-item">Acc Random - 19k <button class="btn" onclick="showPopup('Acc Random', 19000)">Mua ngay</button></div>
         <div class="acc-item">Acc Max Level - 50k <button class="btn" onclick="showPopup('Acc Max Level', 50000)">Mua ngay</button></div>
         <div class="acc-item">Acc Max Level Godhuman - 75k <button class="btn" onclick="showPopup('Acc Max Level Godhuman', 75000)">Mua ngay</button></div>
@@ -90,7 +110,7 @@
     <!-- Overlay nền mờ -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- Bảng xác nhận mua -->
+    <!-- Popup xác nhận mua -->
     <div class="popup" id="popup">
         <h2 id="popup-title">Bạn có muốn mua không?</h2>
         <p id="popup-price"></p>
@@ -98,22 +118,78 @@
         <button class="close" onclick="closePopup()">Hủy</button>
     </div>
 
+    <!-- Popup nạp tiền -->
+    <div class="popup" id="naptien-popup">
+        <h2>Nạp tiền bằng thẻ cào</h2>
+        <input type="text" id="card-code" placeholder="Nhập mã thẻ cào">
+        <button onclick="napTien()">Nạp ngay</button>
+        <button class="close" onclick="closePopup()">Hủy</button>
+    </div>
+
+    <!-- Popup Đăng nhập / Đăng ký -->
+    <div class="auth-popup" id="auth-popup">
+        <h2 id="auth-title"></h2>
+        <input type="text" id="username" placeholder="Tên đăng nhập">
+        <input type="password" id="password" placeholder="Mật khẩu">
+        <button onclick="auth()">Xác nhận</button>
+        <button class="close" onclick="closeAuthPopup()">Hủy</button>
+    </div>
+
     <script>
         function showPopup(accName, price) {
             document.getElementById("popup-title").innerText = "Bạn có muốn mua " + accName + " không?";
             document.getElementById("popup-price").innerText = "Giá: " + price.toLocaleString() + " VNĐ";
             document.getElementById("popup").style.display = "block";
-            document.getElementById("overlay").style.display = "block"; // Hiện lớp phủ nền mờ
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function showPopup(type) {
+            if (type === 'naptien') {
+                document.getElementById("naptien-popup").style.display = "block";
+            } else {
+                document.getElementById("popup-title").innerText = "Bạn có muốn mua " + type + " không?";
+                document.getElementById("popup-price").innerText = "Giá: " + type;
+                document.getElementById("popup").style.display = "block";
+            }
+            document.getElementById("overlay").style.display = "block";
         }
 
         function closePopup() {
             document.getElementById("popup").style.display = "none";
-            document.getElementById("overlay").style.display = "none"; // Ẩn lớp phủ nền mờ
+            document.getElementById("naptien-popup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
         }
 
         function confirmPurchase() {
             alert("Mua thành công! Vui lòng kiểm tra tin nhắn để nhận tài khoản.");
             closePopup();
+        }
+
+        function napTien() {
+            let cardCode = document.getElementById("card-code").value;
+            if (cardCode) {
+                alert("Nạp thành công! Mã thẻ: " + cardCode);
+                closePopup();
+            } else {
+                alert("Vui lòng nhập mã thẻ cào.");
+            }
+        }
+
+        function showAuthPopup(type) {
+            document.getElementById("auth-popup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("auth-title").innerText = type === 'login' ? "Đăng nhập" : "Đăng ký";
+        }
+
+        function closeAuthPopup() {
+            document.getElementById("auth-popup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function auth() {
+            closeAuthPopup();
+            document.getElementById("auth-container").style.display = "none";
+            document.getElementById("main-container").classList.remove("hidden");
         }
     </script>
 </body>
