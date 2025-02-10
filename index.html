@@ -38,6 +38,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        /* Bảng xác nhận */
         .popup {
             display: none;
             position: fixed;
@@ -49,6 +50,7 @@
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
+            z-index: 1000;
         }
         .popup button {
             margin: 5px;
@@ -62,6 +64,17 @@
         .popup .close {
             background: red;
         }
+        /* Lớp phủ nền */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +86,9 @@
         <div class="acc-item">Acc V4 - 150k <button class="btn" onclick="showPopup('Acc V4', 150000)">Mua ngay</button></div>
         <div class="acc-item">Acc V4 Full Gear - 200k <button class="btn" onclick="showPopup('Acc V4 Full Gear', 200000)">Mua ngay</button></div>
     </div>
+
+    <!-- Overlay nền mờ -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- Bảng xác nhận mua -->
     <div class="popup" id="popup">
@@ -87,10 +103,12 @@
             document.getElementById("popup-title").innerText = "Bạn có muốn mua " + accName + " không?";
             document.getElementById("popup-price").innerText = "Giá: " + price.toLocaleString() + " VNĐ";
             document.getElementById("popup").style.display = "block";
+            document.getElementById("overlay").style.display = "block"; // Hiện lớp phủ nền mờ
         }
 
         function closePopup() {
             document.getElementById("popup").style.display = "none";
+            document.getElementById("overlay").style.display = "none"; // Ẩn lớp phủ nền mờ
         }
 
         function confirmPurchase() {
