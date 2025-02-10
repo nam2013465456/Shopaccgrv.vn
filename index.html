@@ -7,20 +7,60 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background: #f5f5f5; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
-        .btn { padding: 10px 20px; color: white; background: blue; border: none; border-radius: 5px; cursor: pointer; }
-        .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); width: 300px; text-align: left; }
+        .btn { padding: 10px 20px; color: white; background: blue; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        .hidden { display: none; }
+        .popup {
+            display: none; position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); background: white; padding: 20px; 
+            border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); width: 300px; text-align: left;
+        }
         .popup button { margin-top: 10px; padding: 10px; background: green; color: white; border: none; cursor: pointer; border-radius: 5px; }
         .popup .close { background: red; }
-        .hidden { display: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Shop Acc Roblox</h1>
-        <button class="btn" onclick="showPopup()">Nạp tiền</button>
+        
+        <div id="auth">
+            <button class="btn" onclick="showLogin()">Đăng nhập</button>
+            <button class="btn" onclick="showRegister()">Đăng ký</button>
+        </div>
+
+        <div id="user" class="hidden">
+            <p>Xin chào, <span id="username"></span>!</p>
+            <button class="btn" onclick="showPopup()">Nạp tiền</button>
+        </div>
     </div>
 
+    <!-- Form Đăng nhập -->
+    <div id="loginPopup" class="popup">
+        <h3>Đăng nhập</h3>
+        <label>Tên đăng nhập:</label>
+        <input type="text" id="loginUser" placeholder="Nhập tên">
+        <br><br>
+        <label>Mật khẩu:</label>
+        <input type="password" id="loginPass" placeholder="Nhập mật khẩu">
+        <br><br>
+        <button onclick="login()">Đăng nhập</button>
+        <button class="close" onclick="hidePopup('loginPopup')">Hủy</button>
+    </div>
+
+    <!-- Form Đăng ký -->
+    <div id="registerPopup" class="popup">
+        <h3>Đăng ký</h3>
+        <label>Tên đăng nhập:</label>
+        <input type="text" id="registerUser" placeholder="Nhập tên">
+        <br><br>
+        <label>Mật khẩu:</label>
+        <input type="password" id="registerPass" placeholder="Nhập mật khẩu">
+        <br><br>
+        <button onclick="register()">Đăng ký</button>
+        <button class="close" onclick="hidePopup('registerPopup')">Hủy</button>
+    </div>
+
+    <!-- Form Nạp Tiền -->
     <div id="popup" class="popup">
         <h3>Nạp tiền bằng thẻ cào</h3>
         <label>Loại thẻ:</label>
@@ -49,16 +89,41 @@
         <br><br>
 
         <button onclick="submitCard()">Nạp thẻ</button>
-        <button class="close" onclick="hidePopup()">Hủy</button>
+        <button class="close" onclick="hidePopup('popup')">Hủy</button>
     </div>
 
     <script>
-        function showPopup() {
-            document.getElementById("popup").style.display = "block";
+        function showPopup(id) {
+            document.getElementById(id).style.display = "block";
         }
         
-        function hidePopup() {
-            document.getElementById("popup").style.display = "none";
+        function hidePopup(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function login() {
+            let user = document.getElementById("loginUser").value;
+            let pass = document.getElementById("loginPass").value;
+            if (user === "" || pass === "") {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+            localStorage.setItem("username", user);
+            document.getElementById("username").innerText = user;
+            document.getElementById("auth").classList.add("hidden");
+            document.getElementById("user").classList.remove("hidden");
+            hidePopup("loginPopup");
+        }
+
+        function register() {
+            let user = document.getElementById("registerUser").value;
+            let pass = document.getElementById("registerPass").value;
+            if (user === "" || pass === "") {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+            alert("Đăng ký thành công! Bây giờ bạn có thể đăng nhập.");
+            hidePopup("registerPopup");
         }
 
         function submitCard() {
@@ -73,8 +138,17 @@
             }
 
             alert(`Nạp thành công thẻ ${type} mệnh giá ${value} VNĐ`);
-            hidePopup();
+            hidePopup("popup");
         }
+
+        window.onload = function() {
+            let user = localStorage.getItem("username");
+            if (user) {
+                document.getElementById("username").innerText = user;
+                document.getElementById("auth").classList.add("hidden");
+                document.getElementById("user").classList.remove("hidden");
+            }
+        };
     </script>
 
 </body>
