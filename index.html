@@ -76,7 +76,7 @@
 
     <!-- Bảng xác nhận mua -->
     <div class="popup" id="popup">
-        <h2 id="popup-title"></h2>
+        <h2 id="popup-title">Bạn có muốn mua không?</h2>
         <p id="popup-price"></p>
         <button onclick="confirmPurchase()">Xác nhận</button>
         <button class="close" onclick="closePopup()">Hủy</button>
@@ -84,10 +84,19 @@
 
     <script>
         function showPopup(accName, price) {
-            document.getElementById("popup-title").innerText = "Bạn muốn mua " + accName + "?";
+            document.getElementById("popup-title").innerText = "Bạn có muốn mua " + accName + " không?";
             document.getElementById("popup-price").innerText = "Giá: " + price.toLocaleString() + " VNĐ";
             document.getElementById("popup").style.display = "block";
         }
 
         function closePopup() {
-            document.getElementById("popup").style.display =
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function confirmPurchase() {
+            alert("Mua thành công! Vui lòng kiểm tra tin nhắn để nhận tài khoản.");
+            closePopup();
+        }
+    </script>
+</body>
+</html>
