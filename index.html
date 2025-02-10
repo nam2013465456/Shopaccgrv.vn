@@ -36,17 +36,58 @@
             background: blue;
             text-decoration: none;
             border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .popup button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            background: green;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .popup .close {
+            background: red;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Shop Acc Roblox</h1>
-        <div class="acc-item">Acc Random - 19k <a href="#" class="btn">Mua ngay</a></div>
-        <div class="acc-item">Acc Max Level <a href="#" class="btn">Mua ngay</a></div>
-        <div class="acc-item">Acc Max Level Godhuman <a href="#" class="btn">Mua ngay</a></div>
-        <div class="acc-item">Acc V4 <a href="#" class="btn">Mua ngay</a></div>
-        <div class="acc-item">Acc V4 Full Gear <a href="#" class="btn">Mua ngay</a></div>
+        <div class="acc-item">Acc Random - 19k <button class="btn" onclick="showPopup('Acc Random', 19000)">Mua ngay</button></div>
+        <div class="acc-item">Acc Max Level - 50k <button class="btn" onclick="showPopup('Acc Max Level', 50000)">Mua ngay</button></div>
+        <div class="acc-item">Acc Max Level Godhuman - 75k <button class="btn" onclick="showPopup('Acc Max Level Godhuman', 75000)">Mua ngay</button></div>
+        <div class="acc-item">Acc V4 - 150k <button class="btn" onclick="showPopup('Acc V4', 150000)">Mua ngay</button></div>
+        <div class="acc-item">Acc V4 Full Gear - 200k <button class="btn" onclick="showPopup('Acc V4 Full Gear', 200000)">Mua ngay</button></div>
     </div>
-</body>
-</html>
+
+    <!-- Bảng xác nhận mua -->
+    <div class="popup" id="popup">
+        <h2 id="popup-title"></h2>
+        <p id="popup-price"></p>
+        <button onclick="confirmPurchase()">Xác nhận</button>
+        <button class="close" onclick="closePopup()">Hủy</button>
+    </div>
+
+    <script>
+        function showPopup(accName, price) {
+            document.getElementById("popup-title").innerText = "Bạn muốn mua " + accName + "?";
+            document.getElementById("popup-price").innerText = "Giá: " + price.toLocaleString() + " VNĐ";
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display =
